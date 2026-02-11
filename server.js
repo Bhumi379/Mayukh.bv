@@ -71,9 +71,9 @@ const Event = mongoose.model('Event', new mongoose.Schema({
 
 // 🔥 FIXED: 'name' ab required nahi hai. Default value 'Member' hai agar khali chhoda toh.
 const Team = mongoose.model('Team', new mongoose.Schema({
-    name: { type: String, default: "Member" }, 
+    name: { type: String, default: "" }, 
     teamName: { type: String, required: true },
-    memberType: { type: String, required: true },
+    memberType: { type: String, default: "Member" },
     imageUrl: String,
     linkedin: String
 }, { timestamps: true }));
@@ -161,7 +161,7 @@ app.post('/api/teams', upload.single('image'), async (req, res) => {
         const newMember = await new Team({
             name: req.body.name, // Required removed
             teamName: req.body.teamName,
-            memberType: req.body.memberType,
+            memberType: req.body.memberType || "Member", // Default to "Member" if not provided
             linkedin: req.body.linkedin,
             imageUrl: imgUrl
         }).save();
